@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 historical = sys.argv[1]
 
 if __name__ == "__main__":
-    print('*******Starting program*******')
+    print('*******Starting program******')
 
     print('Number of arguments:', len(sys.argv), 'arguments.')
     print('Argument List:', str(sys.argv))
