@@ -75,13 +75,13 @@ def parsefile(file):
                     home = teamstats[i]# + teamother[i]
                     #home = teamother[i]
                     updatestats(match, teamstats[i],'home',totalmatchesperteam[i])
-                    print(teams[i],home,'home')
+                    #print(teams[i],home,'home')
                     totalmatchesperteam[i]+=1
                 if awayteam == teams[i]:
                     away = teamstats[i]#+ teamother[i]
                     #away = teamother[i]
                     updatestats(match, teamstats[i],'away',totalmatchesperteam[i])
-                    print(teams[i],away,'away')
+                    #print(teams[i],away,'away')
                     totalmatchesperteam[i]+=1
             #print(home+away)
             vectors.append(home + away)
@@ -101,8 +101,8 @@ def parsefile(file):
 
     vectors.pop(0)
     labels.pop(0)
-    print(vectors)
-    print(labels)
+
+    return vectors,labels
 
 
 def computestats(partition,team,edra):
