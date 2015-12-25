@@ -11,7 +11,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 
 
-historical = sys.argv[1]
+trainset = sys.argv[1]
+testset = sys.argv[2]
 
 def predictions(algo,vectors,labels):
     X=np.array(vectors)
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     #print('*******Fetching input files*******')
     #print('*******Fetching 1st input file: ' + historical + ' *******')
 
-    vectors,labels = Parser.parsefile(historical)
+    vectors,labels = Parser.parsefile(trainset,testset)
     #print(vectors)
     #print(labels)
     algos = ['Naive Bayes','Support Vector Machines','Logistic Regression','Random Forest']
