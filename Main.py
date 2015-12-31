@@ -1,6 +1,8 @@
 __author__ = 'adamidesa'
 
 import Parser
+import Indices
+import test
 import sys
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -64,13 +66,17 @@ if __name__ == "__main__":
     print('Number of arguments:', len(sys.argv))
     print('Argument List:', str(sys.argv))
 
-    #print('*******Fetching input files*******')
-    #print('*******Fetching 1st input file: ' + historical + ' *******')
+    histFeatures = ['goals','shots','yellow']
+    #Indices.updateIndices(histFeatures)
+    #histFeatures = ['goals','shots','fouls','corners','yellow','red']
 
-    vectors,labels = Parser.parsefile(trainset,testset)
+    #vectors,labels = test.parsefile(trainset,testset,histFeatures)
+    vectors,labels = Parser.parsefile(trainset,testset,histFeatures)
+
     #print(vectors)
     #print(labels)
     algos = ['Naive Bayes','Support Vector Machines','Logistic Regression','Random Forest']
+    #exit(0)
     for i in range(0,len(algos)):
         accuracy=predictions(algos[i],vectors,labels)
         print(algos[i]+": "+str(accuracy))
