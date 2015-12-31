@@ -4,8 +4,9 @@ import Indices
 __author__ = 'adamidesa'
 
 TOTAL_TEAMS = 20
+TOTAL_MATCHES = 10
 
-def parsefile(train_file,test_file,histFeatures):
+def parsefile(train_file,histFeatures,predictset):
     teams=['Arsenal',
            'Aston Villa',
            'Chelsea',
@@ -81,12 +82,17 @@ def parsefile(train_file,test_file,histFeatures):
     for i in range(0,len(teams)):
         print(str(totalmatchesperteam[i])+ ' matches played'+ ' for '+teams[i]+' and final team stats are : '+str(teamstats[i]))
 
+    # Remove header
     vectors.pop(0)
     labels.pop(0)
-    print(vectors)
-    print(labels)
+    #print(vectors)
+    #print(labels)
 
-    return vectors,labels
+    predictVectors = parsePredictSet(predictset,teamstats,teams,histFeatures)
+
+    print(predictVectors)
+
+    return vectors,labels,predictVectors
 
 
 def computestats(partition,team,edra,totalmatches,histFeatures):
@@ -163,3 +169,25 @@ def updatestats(partition,team,edra,totalmatches,histFeatures):
         if 'red' in histFeatures:
             stat[Indices.RED_INDEX] = ((team[Indices.RED_INDEX]*totalmatches) + int(partition[Indices.F_A_RED_INDEX]))/(totalmatches+1)
         return stat
+
+def parsePredictSet(predictFile,teamStats,teams,histFeatures):
+    predictHomeVector = np.zeros((len(histFeatures)))
+    predictAwayVector = np.zeros((len(histFeatures)))
+    resultSet=np.zeros((TOTAL_MATCHES,(len(histFeatures)*2)))
+    with open(predictFile, 'r') as csvfile:
+        matches = csv.reader(csvfile, delimiter=',', quotechar='|')
+        # For each match, construct an input vector
+        MATCH=0
+        for match in matches:
+            hometeam = match[0]
+            awayteam = match[1]
+            for i in range(0, len(teams)):
+                if hometeam == teams[i]:
+                    predictHomeVector=teamStats[i]
+                if awayteam == teams[i]:
+                    predictAwayVector=teamStats[i]
+            resultSet[MATCH]=np.append(predictHomeVector,predictAwayVector)
+            MATCH+=1
+
+
+    return resultSet
