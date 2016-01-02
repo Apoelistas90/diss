@@ -88,11 +88,11 @@ def parsefile(train_file,histFeatures,predictset):
     #print(vectors)
     #print(labels)
 
-    predictVectors = parsePredictSet(predictset,teamstats,teams,histFeatures)
+    predictVectors,upcoming = parsePredictSet(predictset,teamstats,teams,histFeatures)
 
-    print(predictVectors)
+    #print(predictVectors)
 
-    return vectors,labels,predictVectors
+    return vectors,labels,predictVectors,upcoming
 
 
 def computestats(partition,team,edra,totalmatches,histFeatures):
@@ -174,6 +174,7 @@ def parsePredictSet(predictFile,teamStats,teams,histFeatures):
     predictHomeVector = np.zeros((len(histFeatures)))
     predictAwayVector = np.zeros((len(histFeatures)))
     resultSet=np.zeros((TOTAL_MATCHES,(len(histFeatures)*2)))
+    upcomingTeams=[]
     with open(predictFile, 'r') as csvfile:
         matches = csv.reader(csvfile, delimiter=',', quotechar='|')
         # For each match, construct an input vector
@@ -181,6 +182,7 @@ def parsePredictSet(predictFile,teamStats,teams,histFeatures):
         for match in matches:
             hometeam = match[0]
             awayteam = match[1]
+            upcomingTeams.append(str(hometeam+'-'+awayteam))
             for i in range(0, len(teams)):
                 if hometeam == teams[i]:
                     predictHomeVector=teamStats[i]
@@ -190,4 +192,4 @@ def parsePredictSet(predictFile,teamStats,teams,histFeatures):
             MATCH+=1
 
 
-    return resultSet
+    return resultSet,upcomingTeams

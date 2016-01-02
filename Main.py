@@ -70,7 +70,7 @@ if __name__ == "__main__":
     #Indices.updateIndices(histFeatures)
     #histFeatures = ['goals','shots','fouls','corners','yellow','red']
 
-    vectors,labels,predictVectors = Parser.parsefile(trainset,histFeatures,predictset)
+    vectors,labels,predictVectors,upcoming = Parser.parsefile(trainset,histFeatures,predictset)
 
     #algos = ['Naive Bayes','Support Vector Machines','Logistic Regression','Random Forest']
     algos = ['Logistic Regression']
@@ -80,8 +80,13 @@ if __name__ == "__main__":
         accuracy,clfLogisticRegression=predictions(algos[i],vectors,labels,clfLogisticRegression)
         print(algos[i]+": "+str(accuracy))
 
+    i=0
     for upcomingMatch in predictVectors:
+        print(upcoming[i])
+        i+=1
         print(clfLogisticRegression.predict(upcomingMatch))
+        print(clfLogisticRegression.predict_proba(upcomingMatch))
+
 
 
 
